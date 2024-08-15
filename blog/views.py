@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView
 from .models import Post
 
 
@@ -22,11 +23,25 @@ def homepage(request) -> HttpResponse:
 
     # Fill and render the page into a HttpResponse
     response: HttpResponse = render(request=request,
-                                    template_name='blog/homepage.html',
+                                    template_name='blog/post_list.html',
                                     context=homepage_context)
 
     return response
 
+class PostListView(ListView):
+    """Class to view all posts as a list, in reverse order.
+    """
+    # Set the model to use from the view. This supplies all instances of the class to the template as an iterable list.
+    # This list is passed to the template with the name 'object_list'.
+    model = Post
+    # Reverse the ordering
+    ordering = ['-date_posted']
+
+
+class PostDetailView(DetailView):
+    """Class to view a post in Detail.
+    """
+    model = Post
 
 
 def about(request) -> HttpResponse:
