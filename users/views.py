@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.contrib import messages
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, ProfileUpdateForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
@@ -38,4 +38,10 @@ def logout_view(request)-> HttpResponse:
 
 @login_required  # decorator added for login requirement
 def profile(request) -> HttpResponse:
-    return render(request, 'users/profile.html')
+    profile_update_form = ProfileUpdateForm()
+
+    context = {
+        'profile_update_form': profile_update_form
+    }
+
+    return render(request, 'users/profile.html', context)

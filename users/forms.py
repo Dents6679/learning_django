@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-
+from .models import Profile
 """
 This file is created to add further functionality to the sign up form.
 """
@@ -25,3 +25,8 @@ class UserRegistrationForm(UserCreationForm):
             self.fields.pop('usable_password')
 
 
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'image']
