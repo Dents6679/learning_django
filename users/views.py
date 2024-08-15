@@ -38,7 +38,19 @@ def logout_view(request)-> HttpResponse:
 
 @login_required  # decorator added for login requirement
 def profile(request) -> HttpResponse:
-    profile_update_form = ProfileUpdateForm()
+
+    if request.method == 'POST':  # If django is getting this as a post request...
+        # Create form object
+        profile_update_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        # Check the form is valid
+        if profile_update_form.is_valid():
+            profile_update_form.save()  # save the form.
+        messages.success(request=request, message=f'Your profile has been updated.')
+        # Do a redirect instead of rendering the template to handle POST-GET redirect issues.
+
+        return redirect('profile')
+    else:
+        profile_update_form = ProfileUpdateForm(instance=request.user.profile)
 
     context = {
         'profile_update_form': profile_update_form
