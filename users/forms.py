@@ -23,3 +23,5 @@ class UserRegistrationForm(UserCreationForm):
         # Check for and remove the unwanted field, replace with actual field name
         if 'usable_password' in self.fields:
             self.fields.pop('usable_password')
+
+
