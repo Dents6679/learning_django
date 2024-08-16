@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Post
 
 
@@ -43,6 +43,18 @@ class PostDetailView(DetailView):
     """
     model = Post
 
+
+class PostCreateView(CreateView):
+    """Class to create a view.
+    """
+    model = Post
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        """Sets the author of a created post before validating it.
+        """
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 def about(request) -> HttpResponse:
     """Bound function for the blog's about page.
