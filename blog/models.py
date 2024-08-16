@@ -30,6 +30,7 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         """
+        This function is called automatically when a post is created. It will redirect the user to the returned URL.
         Gets the absolute url of a post, typically after it has been created.
 
         Returns: The URL of the post object, as a string
