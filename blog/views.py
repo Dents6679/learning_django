@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -37,7 +38,28 @@ class PostListView(ListView):
     model = Post
     # Reverse the ordering
     ordering = ['-date_posted']
+    paginate_by = 4
 
+class UserPostListView(ListView):
+    """Class to view all posts as a list, in reverse order.
+    """
+    # Set the model to use from the view. This supplies all instances of the class to the template as an iterable list.
+    # This list is passed to the template with the name 'object_list'.
+    template_name = 'blog/user_posts.html'
+    model = Post
+    # Reverse the ordering
+    ordering = ['-date_posted']
+    paginate_by = 4
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        context['user'] = user
+        return context
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
 
 class PostDetailView(DetailView):
     """Class to view a post in Detail.
