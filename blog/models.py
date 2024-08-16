@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your models here.
 
 # users
@@ -25,4 +26,14 @@ class Post(models.Model):
 
     def __str__(self)-> str:
         return str(self.title)
-    
+
+
+    def get_absolute_url(self):
+        """
+        Gets the absolute url of a post, typically after it has been created.
+
+        Returns: The URL of the post object, as a string
+
+        """
+        # build the string to the post-detail URL with keyword argument pk for the post's primary key.
+        return reverse('post-detail', kwargs={'pk':self.pk})
