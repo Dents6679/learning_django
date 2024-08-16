@@ -7,13 +7,14 @@
             <div class="media-body">
                 <h2 class="account-heading">{{ user.username }}</h2>
                 <p class="text-secondary">{{ user.email }}</p>
+                <small>{{ user.profile.bio }}</small>
             </div>
         </div>
     </div>
     <hr>
-    <h2 class="muted">{{ user.username }}'s Posts ()</h2>
+    <h2 class="muted">{{ user.username }}'s Posts ({{ page_obj.paginator.count }})</h2>
   {% for post in object_list%}
-    
+
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
@@ -23,7 +24,7 @@
             <p class="article-content">{{ post.content }}</p>
           </div>
         </article>
-    
+
   {% endfor %}
     {% if is_paginated %}
         <div class="pagination-bar">
