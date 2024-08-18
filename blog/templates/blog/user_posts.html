@@ -6,7 +6,14 @@
             <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" alt="profile picture">
             <div class="media-body">
                 <h2 class="account-heading">{{ user.username }}</h2>
-                <p class="text-secondary">{{ user.email }}</p>
+                
+                {% if request.user == user %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mb-1" href="{% url 'profile' %}">Edit Profile</a>
+                        <br>
+                    </div>
+        {% endif %}
+                
                 <small>{{ user.profile.bio }}</small>
             </div>
         </div>
